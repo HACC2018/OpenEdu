@@ -6,6 +6,12 @@
 }
 
 form {
+  box-sizing: border-box;
+  padding: 1em;
+  padding-bottom: 0;
+  border-style: solid;
+  border-color: lightgrey;
+  border-width: 1px;
   width: 100%;
 }
 
@@ -33,6 +39,20 @@ button, input, p {
 
 .App-link {
   color: #61dafb;
+}
+
+.App, .App * {
+  font-size: 1.2em;
+  line-height: 1.4;
+}
+
+button{
+  margin: 0 0 1em 0;
+  padding: 0.2em;
+  border: 0;
+  color: white;
+  background-color: #61dafb;
+  font-weight: bold;
 }
 
 @keyframes App-logo-spin {
