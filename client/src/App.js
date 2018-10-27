@@ -1,4 +1,4 @@
-import './App.css'
+import './App.sass'
 
 import rootReducer from './reducers.js';
 import OpenEduContainer from './containers/OpenEduContainer.js';
