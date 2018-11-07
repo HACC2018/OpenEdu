@@ -11,7 +11,7 @@ let rootReducer = (state, action) => {
     case CLEAR_ERROR:
       return { ...state, error: null };
     default:
-      return {};
+      return {username: null};
   }
 }
 

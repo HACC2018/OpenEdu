@@ -4,6 +4,8 @@ export const LOGOUT = "LOGOUT";
 export const CHANGE_USER = "CHANGE_USER";
 export const ERROR = "ERROR";
 export const CLEAR_ERROR = "CLEAR_ERROR";
+export const FETCH_QUEUE = "FETCH_QUEUE";
+export const RECEIVE_QUEUE = "RECEIVE_QUEUE";
 
 export function logout() {
   return dispatch => {
