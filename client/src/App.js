@@ -34,6 +34,7 @@ let Dashboard = connect(
 )(props =>
   <div>
     <p>{props.username}</p>
+    <p>$$\frac 1 2$$</p>
     { props.queue && <ul>{props.queue.map(topic => <li key={topic.id}>{
       <div>
         <h3 onClick={()=>props.study(topic)}>{topic.title}</h3>
@@ -48,15 +49,44 @@ let UserRoute = connect(
   <Route path={props.path} render={() => props.loggedIn ? <Component {...props} /> : <Redirect to="/login" />} />
 );
 
+
+declare var MathJax;
+declare var hljs;
+class TopicInner extends React.Component {
+  componentDidUpdate() {
+    MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+    var els = document.querySelectorAll('pre code');
+    for (var i = 0; i < els.length; i++) {
+        if (!els[i].classList.contains('hljs')) {
+            window.hljs.highlightBlock(els[i]);
+        }
+    }
+  }
+
+  componentDidMount() {
+    MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+    var els = document.querySelectorAll('pre code');
+    for (var i = 0; i < els.length; i++) {
+        if (!els[i].classList.contains('hljs')) {
+            window.hljs.highlightBlock(els[i]);
+        }
+    }
+  }
+
+  render() {
+    return (
+      <div>
+        <h3>{this.props.topic.title}</h3>
+        <ReactMarkdown source={this.props.topic.content} />
+        <button onClick={() => this.props.complete(this.props.topic)}>Complete</button>
+      </div>
+    );
+  }
+}
+
 let Topic = connect(
   state => ({}), dispatch => ({ complete: topic => dispatch(completeTopic(topic)) })
-)((props) => (
-  <div>
-    <h3>{props.topic.title}</h3>
-    <ReactMarkdown source={props.topic.content} />
-    <button onClick={() => props.complete(props.topic)}>Complete</button>
-  </div>
-));
+)(TopicInner);
 
 const history = createBrowserHistory()
 

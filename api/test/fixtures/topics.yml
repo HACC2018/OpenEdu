@@ -4,19 +4,51 @@ sin:
   title: Sin
   course: Trigonometry
   content: |
-    # Definition
-    sin(x) = opposite/hypotenues
+    ## Definition
+    ![triangle](https://www.mathopenref.com/images/sohcahtoa/triangle.png)
+
+    The definition of sin is
+    $$\sin(x) = o/h$$
+    ## Power Series
+    A power series for $\sin\theta$ is given by
+    $$x - \frac{x}{3!} + \frac{x}{5!} - \ldots$$
 
 cos:
   title: Cos
+  course: Trigonometry
   content: |
     # Definition
-    cos(x) = opposite/hypotenues
-  course: Trigonometry
+    The definition of cos is
+    $$\cos(x) = a/h$$
 
 tan:
   title: Tan
+  course: Trigonometry
   content: |
     # Definition
-    tan(x) = opposite/adjacent
-  course: Trigonometry
+    The definition of tangent is
+    $$\tan(x) = o/a$$
+
+bubble_sort:
+  title: Bubble Sort
+  course: Computer_Science
+  content: |
+    ## Psuedocode
+    ```java
+    void bubbleSort(int arr[])
+    {
+        int n = arr.length;
+        for (int i = 0; i < n-1; i++)
+            for (int j = 0; j < n-i-1; j++)
+                if (arr[j] > arr[j+1])
+                {
+                    // swap temp and arr[i]
+                    int temp = arr[j];
+                    arr[j] = arr[j+1];
+                    arr[j+1] = temp;
+                }
+    }
+    ```
+
+    ## Complexity
+    BubbleSort has a worst case runtime complexity of $\Theta(n)$
