@@ -11,7 +11,7 @@ class TopicController < ApplicationController
       end
     end
 
-    render json: queue
+    render json: Topic.find(queue)
   end
 
   def complete

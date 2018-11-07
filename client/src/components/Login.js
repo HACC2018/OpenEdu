@@ -19,7 +19,7 @@ let Login = (props) => {
 }
 
 const LoginContainer = connect(
-  state => ({ ...state, username: state.username }),
+  state => ({ username: state.openedu.username }),
   dispatch => ({
     login: (email, password) => dispatch(login(email, password)),
     logout: () => dispatch(logout())
