@@ -61,7 +61,7 @@ class OpenEdu extends React.Component {
           <Switch>
             <Route exact path="/dashboard" component={Dashboard} />
             <Route exact path="/topic/:id" render={({match}) =>
-                <Topic topic={props.queue.find(t => t.id == match.params.id)} />
+                <Topic topic_id={match.params.id} />
             } />
             <Route exact path="/login"
                    render={() => <LoginContainer />} />

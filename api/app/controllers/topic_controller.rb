@@ -11,7 +11,10 @@ class TopicController < ApplicationController
       end
     end
 
-    render json: Topic.find(queue)
+    topics = Topic.find(queue)
+    courses = Course.find topics.map { |t| t.course_id }
+
+    render json: { topics: topics, courses: courses }
   end
 
   def complete

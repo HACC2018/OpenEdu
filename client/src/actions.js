@@ -47,7 +47,7 @@ export function fetchQueue() {
   return dispatch => {
     dispatch({type: EMPTY_QUEUE});
     axios.get(api_url + 'queue')
-      .then(res => dispatch({type: RECEIVE_QUEUE, queue: res.data}),
+      .then(res => dispatch({type: RECEIVE_QUEUE, queue: res.data.topics, courses: res.data.courses}),
             err => alert("error fetching queue"))
   }
 }

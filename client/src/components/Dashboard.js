@@ -3,10 +3,10 @@ import { connect } from 'react-redux'
 import { push } from 'connected-react-router';
 
 let Dashboard = connect(
-  state => ({
+  (state, p) => ({
     username: state.openedu.username,
     queue: state.openedu.queue,
-    state: state
+    courses: state.openedu.courses
   }),
   dispatch => ({
     study: (topic) => dispatch(push('/topic/' + topic.id))
@@ -19,7 +19,7 @@ let Dashboard = connect(
         <li key={topic.id}>{
           <a className="topic-card" onClick={()=>props.study(topic)}>
             <h3>{topic.title}</h3>
-            <span className="topic-course">Trigonometry</span>
+            <span className="topic-course">{props.courses.find(c => c.id == topic.course_id).title}</span>
             <span className="topic-status">New</span>
           </a>
           }

@@ -43,7 +43,8 @@ class TopicInner extends React.Component {
 }
 
 let Topic = connect(
-  state => ({}), dispatch => ({ complete: topic => dispatch(completeTopic(topic)) })
+  (state, p) => ({ topic: state.openedu.queue.find(t => t.id == p.topic_id) }),
+  dispatch => ({ complete: topic => dispatch(completeTopic(topic)) })
 )(TopicInner);
 
 export default Topic;

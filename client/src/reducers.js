@@ -13,9 +13,9 @@ let rootReducer = (state, action) => {
     case CLEAR_ERROR:
       return { ...state, error: null };
     case RECEIVE_QUEUE:
-      return { ...state, queue: action.queue };
+      return { ...state, queue: action.queue, courses: action.courses };
     case EMPTY_QUEUE:
-      return { ...state, queue: null };
+      return { ...state, queue: null, courses: null };
     default:
       return {...state};
   }
