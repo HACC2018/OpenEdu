@@ -7,13 +7,12 @@ let Login = (props) => {
   let passwordfield;
 
   return (
-    <div className="App">
-      <p>{props.username ? "hello, " + props.username : "not logged in"}</p>
-      <input ref={node => (emailfield = node)} />
-      <input ref={node => (passwordfield = node)} />
-      <button onClick={() => props.login(emailfield.value, passwordfield.value)}>Log In</button>
-      <button onClick={() => props.logout()}>Logout</button>
-      { props.error ? <p>{props.error}</p> : null }
+    <div className="login">
+        <label>Email Address</label>
+        <input className="email-field" ref={node => (emailfield = node)} />
+        <label>Password</label>
+        <input ref={node => (passwordfield = node)} />
+        <button type="button" onClick={() => props.login(emailfield.value, passwordfield.value)}>Log In</button>
     </div>
   );
 }
@@ -21,8 +20,7 @@ let Login = (props) => {
 const LoginContainer = connect(
   state => ({ username: state.openedu.username }),
   dispatch => ({
-    login: (email, password) => dispatch(login(email, password)),
-    logout: () => dispatch(logout())
+    login: (email, password) => dispatch(login(email, password))
   })
 )(Login);
 

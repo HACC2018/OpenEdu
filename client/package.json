@@ -5,6 +5,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "connected-react-router": "^5.0.1",
+    "node-sass": "^4.10.0",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
     "react-markdown": "^4.0.3",
@@ -14,6 +15,7 @@
     "react-scripts": "2.0.5",
     "redux": "^4.0.1",
     "redux-devtools-extension": "^2.13.5",
+    "redux-localstorage-simple": "^2.1.4",
     "redux-thunk": "^2.3.0"
   },
   "scripts": {

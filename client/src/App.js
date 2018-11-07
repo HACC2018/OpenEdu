@@ -1,6 +1,7 @@
-import './App.css'
+import './scss/app.scss'
 
 import LoginContainer from './components/Login.js';
+import Dashboard from './components/Dashboard.js';
 
 import React from 'react';
 import { BrowserRouter as Router, Route, Redirect, Switch, Link } from 'react-router-dom'
@@ -22,26 +23,7 @@ import { push } from 'connected-react-router';
 
 import ReactMarkdown from 'react-markdown';
 
-let Dashboard = connect(
-  state => ({
-    username: state.openedu.username,
-    queue: state.openedu.queue,
-    state: state
-  }),
-  dispatch => ({
-    study: (topic) => dispatch(push('/topic/' + topic.id))
-  })
-)(props =>
-  <div>
-    <p>{props.username}</p>
-    <p>$$\frac 1 2$$</p>
-    { props.queue && <ul>{props.queue.map(topic => <li key={topic.id}>{
-      <div>
-        <h3 onClick={()=>props.study(topic)}>{topic.title}</h3>
-      </div>
-    }</li>)}</ul> }
-  </div>
-);
+import { save, load } from "redux-localstorage-simple"
 
 let UserRoute = connect(
   state => ({ loggedIn: state.openedu.username == null ? false : true })
@@ -75,8 +57,8 @@ class TopicInner extends React.Component {
 
   render() {
     return (
-      <div>
-        <h3>{this.props.topic.title}</h3>
+      <div className="topic">
+        <h1>{this.props.topic.title}</h1>
         <ReactMarkdown source={this.props.topic.content} />
         <button onClick={() => this.props.complete(this.props.topic)}>Complete</button>
       </div>
@@ -93,7 +75,7 @@ const history = createBrowserHistory()
 let OpenEdu = (props) => {
   return (
     <div>
-    <header>
+    <header className="app-header">
       <h1>OpenEdu</h1>
       {props.loggedIn && <button onClick={props.logout}>Logout</button>}
     </header>
@@ -124,9 +106,15 @@ let OpenEduContainer = connect(
   })
 )(OpenEdu);
 
-const store = createStore(
+const createStoreWithMiddleware = applyMiddleware(
+  save() // Saving done here
+)(createStore)
+
+const rootReducer = createRootReducer(history);
+
+const store = createStoreWithMiddleware(
   createRootReducer(history), // root reducer with router state
-  {},
+  load(),
   composeWithDevTools(
     applyMiddleware(
       routerMiddleware(history), // for dispatching history actions

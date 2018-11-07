@@ -8,6 +8,8 @@ export const CLEAR_ERROR = "CLEAR_ERROR";
 export const RECEIVE_QUEUE = "RECEIVE_QUEUE";
 export const EMPTY_QUEUE = "EMPTY_QUEUE";
 
+const api_url = 'http://192.168.1.102:3000/'
+
 export function logout() {
   return dispatch => {
     delete axios.defaults.headers.common['Authorization'];
@@ -19,12 +21,12 @@ export function logout() {
 export function login(email, password) {
   return dispatch => {
     return axios.post(
-      'http://localhost:3000/user_token',
+      api_url + 'user_token',
       { auth: { email, password } }
     )
     .then(res => {
       axios.defaults.headers.common['Authorization'] = 'Bearer ' + res.data.jwt;
-      axios.get('http://localhost:3000/user')
+      axios.get(api_url + 'user')
         .then(res => {
           dispatch({ type: CHANGE_USER, user: res.data.username });
           dispatch(fetchQueue());
@@ -33,6 +35,7 @@ export function login(email, password) {
       err => {
         dispatch({type: LOGOUT});
         dispatch(timedError("login failed", 2000))
+        alert(JSON.stringify(err));
       });
   };
 }
@@ -41,14 +44,14 @@ export function fetchQueue() {
   return dispatch => {
     dispatch({type: EMPTY_QUEUE});
     dispatch(push('/dashboard'));
-    axios.get('http://localhost:3000/queue')
+    axios.get(api_url + 'queue')
          .then(res => dispatch({type: RECEIVE_QUEUE, queue: res.data}))
   }
 }
 
 export function completeTopic(topic) {
   return dispatch => {
-    return axios.post('http://localhost:3000/complete/' + topic.id, {complete: true})
+    return axios.post(api_url + 'complete/' + topic.id, {complete: true})
       .then(() => dispatch(push('/dashboard')))
       .then(res => dispatch(fetchQueue()))
   };
