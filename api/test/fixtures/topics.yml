@@ -1,11 +1,22 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  title: MyString
-  content: MyString
-  course: one
+sin:
+  title: Sin
+  course: Trigonometry
+  content: |
+    # Definition
+    sin(x) = opposite/hypotenues
 
-two:
-  title: MyString
-  content: MyString
-  course: two
+cos:
+  title: Cos
+  content: |
+    # Definition
+    cos(x) = opposite/hypotenues
+  course: Trigonometry
+
+tan:
+  title: Tan
+  content: |
+    # Definition
+    tan(x) = opposite/adjacent
+  course: Trigonometry

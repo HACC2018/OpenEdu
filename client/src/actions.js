@@ -6,6 +6,7 @@ export const CHANGE_USER = "CHANGE_USER";
 export const ERROR = "ERROR";
 export const CLEAR_ERROR = "CLEAR_ERROR";
 export const RECEIVE_QUEUE = "RECEIVE_QUEUE";
+export const EMPTY_QUEUE = "EMPTY_QUEUE";
 
 export function logout() {
   return dispatch => {
@@ -27,7 +28,6 @@ export function login(email, password) {
         .then(res => {
           dispatch({ type: CHANGE_USER, user: res.data.username });
           dispatch(fetchQueue());
-          dispatch(push("/dashboard"));
         })
       },
       err => {
@@ -38,10 +38,20 @@ export function login(email, password) {
 }
 
 export function fetchQueue() {
-  return dispatch =>
+  return dispatch => {
+    dispatch({type: EMPTY_QUEUE});
+    dispatch(push('/dashboard'));
     axios.get('http://localhost:3000/queue')
-         .then(res => dispatch({type: RECEIVE_QUEUE, queue: res.data})
-  );
+         .then(res => dispatch({type: RECEIVE_QUEUE, queue: res.data}))
+  }
+}
+
+export function completeTopic(topic) {
+  return dispatch => {
+    return axios.post('http://localhost:3000/complete/' + topic.id, {complete: true})
+      .then(() => dispatch(push('/dashboard')))
+      .then(res => dispatch(fetchQueue()))
+  };
 }
 
 export function timedError(what, time) {

@@ -6,7 +6,7 @@ class TopicController < ApplicationController
     queue = Topic.all.map { |t| t.id } - completions
 
     Requirement.all.each do |r|
-      unless completions.include?(r.required_topic)
+      unless completions.include?(r.required_topic.id)
         queue.delete r.topic.id
       end
     end

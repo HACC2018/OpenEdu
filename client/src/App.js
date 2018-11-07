@@ -9,7 +9,7 @@ import { applyMiddleware, compose, createStore } from 'redux'
 import { Provider, connect } from 'react-redux'
 import thunk from 'redux-thunk';
 
-import { login, logout } from './actions.js';
+import { login, logout, completeTopic } from './actions.js';
 
 import { createBrowserHistory } from 'history'
 import { routerMiddleware } from 'connected-react-router'
@@ -19,6 +19,8 @@ import { ConnectedRouter } from 'connected-react-router'
 import { composeWithDevTools } from 'redux-devtools-extension';
 
 import { push } from 'connected-react-router';
+
+import ReactMarkdown from 'react-markdown';
 
 let Dashboard = connect(
   state => ({
@@ -46,12 +48,15 @@ let UserRoute = connect(
   <Route path={props.path} render={() => props.loggedIn ? <Component {...props} /> : <Redirect to="/login" />} />
 );
 
-let Topic = (props) => (
+let Topic = connect(
+  state => ({}), dispatch => ({ complete: topic => dispatch(completeTopic(topic)) })
+)((props) => (
   <div>
     <h3>{props.topic.title}</h3>
-    <p>{props.topic.content}</p>
+    <ReactMarkdown source={props.topic.content} />
+    <button onClick={() => props.complete(props.topic)}>Complete</button>
   </div>
-)
+));
 
 const history = createBrowserHistory()
 
@@ -83,7 +88,10 @@ let OpenEduContainer = connect(
     loggedIn: state.openedu.username == null ? false : true,
     queue: state.openedu.queue
   }),
-  dispatch => ({ logout: () => dispatch(logout()) })
+  dispatch => ({
+    logout: () => dispatch(logout()),
+    completeTopic: (topic) => dispatch(completeTopic(topic))
+  })
 )(OpenEdu);
 
 const store = createStore(
