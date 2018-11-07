@@ -1,108 +1,89 @@
 import './scss/app.scss'
 
+import axios from 'axios';
+
+import { login, logout, fetchQueue } from './actions.js';
+import createRootReducer from './reducers'
+
 import LoginContainer from './components/Login.js';
 import Dashboard from './components/Dashboard.js';
+import Topic from './components/Topic.js';
 
 import React from 'react';
-import { BrowserRouter as Router, Route, Redirect, Switch, Link } from 'react-router-dom'
-
+import { Route, Redirect, Switch, Link } from 'react-router-dom'
 import { applyMiddleware, compose, createStore } from 'redux'
 import { Provider, connect } from 'react-redux'
 import thunk from 'redux-thunk';
-
-import { login, logout, completeTopic } from './actions.js';
-
 import { createBrowserHistory } from 'history'
-import { routerMiddleware } from 'connected-react-router'
-import createRootReducer from './reducers'
-import { ConnectedRouter } from 'connected-react-router'
-
+import { push, ConnectedRouter, routerMiddleware } from 'connected-react-router'
 import { composeWithDevTools } from 'redux-devtools-extension';
-
-import { push } from 'connected-react-router';
-
-import ReactMarkdown from 'react-markdown';
-
 import { save, load } from "redux-localstorage-simple"
 
+  /*
 let UserRoute = connect(
-  state => ({ loggedIn: state.openedu.username == null ? false : true })
+  state => ({ loggedIn: state.openedu.username != null ? true : false }),
+  dispatch => ({ redirect: () => dispatch(push('/login')) })
 )(({component: Component, ...props}) =>
-  <Route path={props.path} render={() => props.loggedIn ? <Component {...props} /> : <Redirect to="/login" />} />
+  <Route path={props.path} render={() => {
+    if(!props.loggedIn) {
+      props.redirect();
+      return null;
+    }
+    return <Component {...props} />;
+  }}/>
 );
+*/
 
+const history = createBrowserHistory()
 
-declare var MathJax;
-declare var hljs;
-class TopicInner extends React.Component {
-  componentDidUpdate() {
-    MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
-    var els = document.querySelectorAll('pre code');
-    for (var i = 0; i < els.length; i++) {
-        if (!els[i].classList.contains('hljs')) {
-            window.hljs.highlightBlock(els[i]);
-        }
-    }
-  }
-
+class OpenEdu extends React.Component {
   componentDidMount() {
-    MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
-    var els = document.querySelectorAll('pre code');
-    for (var i = 0; i < els.length; i++) {
-        if (!els[i].classList.contains('hljs')) {
-            window.hljs.highlightBlock(els[i]);
-        }
-    }
+    axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.props.jwt;
+
+    if (this.props.loggedIn)
+      this.props.refresh();
   }
 
   render() {
+    let props = this.props;
+
+    if (!this.props.loggedIn && this.props.path != '/login')
+      this.props.redirectToLogin();
+
     return (
-      <div className="topic">
-        <h1>{this.props.topic.title}</h1>
-        <ReactMarkdown source={this.props.topic.content} />
-        <button onClick={() => this.props.complete(this.props.topic)}>Complete</button>
+      <div>
+      <header className="app-header">
+        <h1>OpenEdu</h1>
+        {props.loggedIn && <button onClick={props.logout}>Logout</button>}
+      </header>
+      <main>
+        <ConnectedRouter history={history}>
+          <Switch>
+            <Route exact path="/dashboard" component={Dashboard} />
+            <Route exact path="/topic/:id" render={({match}) =>
+                <Topic topic={props.queue.find(t => t.id == match.params.id)} />
+            } />
+            <Route exact path="/login"
+                   render={() => <LoginContainer />} />
+          </Switch>
+        </ConnectedRouter>
+      </main>
       </div>
     );
   }
 }
 
-let Topic = connect(
-  state => ({}), dispatch => ({ complete: topic => dispatch(completeTopic(topic)) })
-)(TopicInner);
-
-const history = createBrowserHistory()
-
-let OpenEdu = (props) => {
-  return (
-    <div>
-    <header className="app-header">
-      <h1>OpenEdu</h1>
-      {props.loggedIn && <button onClick={props.logout}>Logout</button>}
-    </header>
-    <main>
-      <ConnectedRouter history={history}>
-        <Switch>
-          <Route exact path="/dashboard" component={Dashboard} />
-          <Route exact path="/topic/:id" render={({match}) =>
-              <Topic topic={props.queue.find(t => t.id == match.params.id)} />
-          } />
-          <Route exact path="/login"
-                 render={() => <LoginContainer />} />
-        </Switch>
-      </ConnectedRouter>
-    </main>
-    </div>
-  );
-}
-
 let OpenEduContainer = connect(
   state => ({
+    path: state.router.location.pathname,
     loggedIn: state.openedu.username == null ? false : true,
-    queue: state.openedu.queue
+    queue: state.openedu.queue,
+    jwt: state.openedu.jwt
   }),
   dispatch => ({
     logout: () => dispatch(logout()),
-    completeTopic: (topic) => dispatch(completeTopic(topic))
+    redirectToLogin: () => dispatch(push('/login')),
+    refresh: () => dispatch(fetchQueue())
   })
 )(OpenEdu);
 

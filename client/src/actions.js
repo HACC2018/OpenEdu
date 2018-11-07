@@ -25,11 +25,14 @@ export function login(email, password) {
       { auth: { email, password } }
     )
     .then(res => {
-      axios.defaults.headers.common['Authorization'] = 'Bearer ' + res.data.jwt;
+      let jwt = res.data.jwt;
+      axios.defaults.headers.common['Authorization'] = 'Bearer ' + jwt;
+
       axios.get(api_url + 'user')
         .then(res => {
-          dispatch({ type: CHANGE_USER, user: res.data.username });
+          dispatch({ type: CHANGE_USER, user: res.data.username, jwt });
           dispatch(fetchQueue());
+          dispatch(push('/dashboard'));
         })
       },
       err => {
@@ -43,9 +46,9 @@ export function login(email, password) {
 export function fetchQueue() {
   return dispatch => {
     dispatch({type: EMPTY_QUEUE});
-    dispatch(push('/dashboard'));
     axios.get(api_url + 'queue')
-         .then(res => dispatch({type: RECEIVE_QUEUE, queue: res.data}))
+      .then(res => dispatch({type: RECEIVE_QUEUE, queue: res.data}),
+            err => alert("error fetching queue"))
   }
 }
 

@@ -13,10 +13,17 @@ let Dashboard = connect(
   })
 )(props =>
   <div className="dashboard">
-    { props.queue && <ul className="topic-list">{props.queue.map(topic =>
-        <li className="topic-card" key={topic.id}>{
-          <h3 onClick={()=>props.study(topic)}>{topic.title}</h3>
-        }</li>)}
+    <h1>Study Queue</h1>
+    { props.queue &&
+        <ul className="topic-list">{props.queue.map(topic =>
+        <li key={topic.id}>{
+          <a className="topic-card" onClick={()=>props.study(topic)}>
+            <h3>{topic.title}</h3>
+            <span className="topic-course">Trigonometry</span>
+            <span className="topic-status">New</span>
+          </a>
+          }
+        </li>)}
     </ul> }
   </div>
 );

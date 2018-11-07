@@ -5,9 +5,9 @@ import { LOGOUT, CHANGE_USER, ERROR, CLEAR_ERROR, RECEIVE_QUEUE, EMPTY_QUEUE } f
 let rootReducer = (state, action) => {
   switch(action.type) {
     case LOGOUT:
-      return { ...state, username: null };
+      return { ...state, username: null, queue: null };
     case CHANGE_USER:
-      return { ...state, username: action.user };
+      return { ...state, username: action.user, jwt: action.jwt };
     case ERROR:
       return { ...state, error: action.what };
     case CLEAR_ERROR:
