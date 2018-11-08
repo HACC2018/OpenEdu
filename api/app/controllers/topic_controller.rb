@@ -2,19 +2,23 @@ class TopicController < ApplicationController
   before_action :authenticate_user
 
   def queue
-    completions = current_user.completions.map { |c| c.topic_id }
-    queue = Topic.all.map { |t| t.id } - completions
+    completions = current_user.completions
+    all_topics = Hash[Topic.all.map { |t| [t.id, t.as_json.merge({status: "new"})] }]
 
     Requirement.all.each do |r|
       unless completions.include?(r.required_topic.id)
-        queue.delete r.topic.id
+        all_topics[r.topic_id][:status] = "locked"
       end
     end
 
-    topics = Topic.find(queue)
-    courses = Course.find topics.map { |t| t.course_id }
+    completions.each do |c|
+      all_topics[c.topic_id][:status] = "completed"
+    end
 
-    render json: { topics: topics, courses: courses }
+    courses = Course.all
+
+    render json: { topics: all_topics,
+                   courses: courses }
   end
 
   def complete

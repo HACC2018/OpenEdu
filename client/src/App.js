@@ -19,21 +19,6 @@ import { push, ConnectedRouter, routerMiddleware } from 'connected-react-router'
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { save, load } from "redux-localstorage-simple"
 
-  /*
-let UserRoute = connect(
-  state => ({ loggedIn: state.openedu.username != null ? true : false }),
-  dispatch => ({ redirect: () => dispatch(push('/login')) })
-)(({component: Component, ...props}) =>
-  <Route path={props.path} render={() => {
-    if(!props.loggedIn) {
-      props.redirect();
-      return null;
-    }
-    return <Component {...props} />;
-  }}/>
-);
-*/
-
 const history = createBrowserHistory()
 
 class OpenEdu extends React.Component {
@@ -54,6 +39,7 @@ class OpenEdu extends React.Component {
       <div>
       <header className="app-header">
         <h1>OpenEdu</h1>
+        <button className="nav-button"><i className="fas fa-bars"></i></button>
         {props.loggedIn && <button onClick={props.logout}>Logout</button>}
       </header>
       <main>

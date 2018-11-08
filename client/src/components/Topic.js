@@ -4,7 +4,7 @@ import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import { connect } from 'react-redux'
 
-class TopicInner extends React.Component {
+class Topic extends React.Component {
   componentDidUpdate() {
     declare var MathJax;
     declare var hljs;
@@ -42,9 +42,9 @@ class TopicInner extends React.Component {
   }
 }
 
-let Topic = connect(
-  (state, p) => ({ topic: state.openedu.queue.find(t => t.id == p.topic_id) }),
+export default connect(
+  (state, p) => ({
+    topic: state.openedu.queue[p.topic_id]
+  }),
   dispatch => ({ complete: topic => dispatch(completeTopic(topic)) })
-)(TopicInner);
-
-export default Topic;
+)(Topic);

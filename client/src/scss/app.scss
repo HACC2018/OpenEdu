@@ -55,6 +55,11 @@ html {
       font-size: 1.2rem;
       margin-right: 1rem;
     }
+
+    .nav-button {
+      font-size: 1.5rem;
+      color: white;
+    }
   }
 
   main {
@@ -155,6 +160,13 @@ html {
 
     border-radius: 5px;
 
+    &.locked {
+      color: lightgrey !important;
+      h3, span {
+        color: grey !important;
+      }
+    }
+
     a {
       background: blue;
     }
@@ -174,7 +186,6 @@ html {
     }
 
     .topic-status {
-      background: #7777FF;
       color: white;
       text-align: center;
       display: inline-block;
@@ -189,6 +200,20 @@ html {
       margin-right: -1px;
 
       border-radius: 0 0 5px 5px;
+    }
+
+
+
+    .topic-status.new {
+      background: #7777FF;
+    }
+
+    .topic-status.completed {
+      background: #77FF77;
+    }
+
+    .topic-status.locked {
+      background: #BBBBBB;
     }
   }
 
