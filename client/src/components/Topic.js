@@ -32,12 +32,14 @@ class Topic extends React.Component {
   }
 
   render() {
+    const topic = this.props.topic;
+
     return (
       <div className="topic">
         <h1>{this.props.topic.title}</h1>
         <ReactMarkdown source={this.props.topic.content} />
-        <button onClick={() => this.props.review(this.props.topic)}>Schedule Review</button>
-        <button className="reset-topic" onClick={() => this.props.reset(this.props.topic)}>Reset</button>
+        { (topic.status == "reviewing" || topic.status == "new") && <button onClick={() => this.props.review(this.props.topic)}>Schedule Review</button> }
+        { topic.status != "new" && <button className="reset-topic" onClick={() => this.props.reset(this.props.topic)}>Reset</button> }
       </div>
     );
   }
