@@ -4,6 +4,9 @@ import { push } from 'connected-react-router';
 
 let Dashboard = props => {
   let queue = props.queue ? Object.entries(props.queue).map(p => p[1]) : [];
+  let numCompleted = queue.filter(t => t.status == "completed").length;
+  let numNew = queue.filter(t => t.status == "new").length;
+  let numLocked = queue.filter(t => t.status == "locked").length;
 
   let keys = [ "new", "completed", "locked" ];
   queue.sort((t1, t2) => {
@@ -15,7 +18,20 @@ let Dashboard = props => {
   });
 
   return (<div className="dashboard">
-    <h1>Study Queue</h1>
+  <div className="stats">
+    <div className="num-new stat">
+      <span className="stat-num">{numNew}</span>
+      <span className="stat-label">New</span>
+    </div>
+    <div className="num-completed stat">
+      <span className="stat-num">{numCompleted}</span>
+      <span className="stat-label">Completed</span>
+    </div>
+    <div className="num-locked stat">
+      <span className="stat-num">{numLocked}</span>
+      <span className="stat-label">Locked</span>
+    </div>
+  </div>
         <ul className="topic-list">{queue.map(topic =>
         <li key={topic.id}>{
           <a className={"topic-card " + topic.status} onClick={()=>props.study(topic)}>
