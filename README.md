@@ -26,7 +26,7 @@ To install yarn on Windows, Mac, or any linux distro, check https://yarnpkg.com/
 The commands should create a local page of our app at localhost:3000
 
 ## App Testing
-To test our app, in our login screen, we have a set email address and password, with the email: bob@gmail.com password: password
+To test our app, in our login screen, we have a set email address and password with the email: bob@gmail.com password: password
 
 ## Software Dependencies 
 yarn 1.12.1 
