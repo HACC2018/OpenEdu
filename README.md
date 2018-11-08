@@ -1,6 +1,7 @@
-# OpenEdu
  <img src="OpenEdu.png" alt="Our logo">
  
+Our project, OpenEdu, targets equitable access to education by providing a platform for educators to create and set up plan templates for their school year based on the <a href="http://www.corestandards.org/read-the-standards/">Common Core standards of education</a>. Our app, in turn, allows students to access and learn material at their own pace which follows an educator's plan template, covering their potential weaknesses in their studies by reviewing core topics which require knowledge of prerequisite material.
+
 ## Getting Started on Windows
 To start the project on Windows, enter the git bash command line and cd into the project folder (OpenEdu) then cd into the client folder and execute the following commands:
 <br>
