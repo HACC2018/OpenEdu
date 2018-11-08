@@ -7,6 +7,49 @@ import { createBrowserHistory } from 'history';
 
 let history = createBrowserHistory();
 
+class Checkbox extends Component {
+  state = {
+    isChecked: false,
+  }
+
+  toggleCheckboxChange = () => {
+    const { handleCheckboxChange, label } = this.props;
+
+    this.setState(({ isChecked }) => (
+      {
+        isChecked: !isChecked,
+      }
+    ));
+
+    handleCheckboxChange(label);
+  }
+
+  render() {
+    const { label } = this.props;
+    const { isChecked } = this.state;
+
+    return (
+      <div className="checkbox">
+        <label>
+          <input
+            type="checkbox"
+            value={label}
+            checked={isChecked}
+            onChange={this.toggleCheckboxChange}
+          />
+
+          {label}
+        </label>
+      </div>
+    );
+  }
+}
+
+Checkbox.propTypes = {
+  label: PropTypes.string.isRequired,
+  handleCheckboxChange: PropTypes.func.isRequired,
+};
+
 class MyAppCalendar extends Component {
   state = {
     date: new Date(),
@@ -62,7 +105,7 @@ class NewTemplate extends Component{
   {
     return (
       <div>
-      <h1>New Template for</h1>
+      <h1>New Template for 6th Grade Math</h1>
       <h2>Lesson Plan Type</h2>
       <select>
         { ["Daily", "Weekly"].map(g =>
