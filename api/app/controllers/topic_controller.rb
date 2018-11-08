@@ -23,6 +23,7 @@ class TopicController < ApplicationController
           all_topics[r.topic_id][:status] = "in_progress"
           all_topics[r.topic_id][:next_review] = r.time
         end
+        all_topics[r.topic_id][:times_left] = 2 - r.times
       end
     end
 

@@ -38,7 +38,9 @@ class Topic extends React.Component {
       <div className="topic">
         <h1>{this.props.topic.title}</h1>
         <ReactMarkdown source={this.props.topic.content} />
-        { (topic.status == "reviewing" || topic.status == "new") && <button onClick={() => this.props.review(this.props.topic)}>Schedule Review</button> }
+        { (topic.status == "reviewing" || topic.status == "new") && <button onClick={() => this.props.review(this.props.topic)}>{
+          (topic.status == "reviewing" && topic.times_left == 1) ? "Complete" : "Schedule Review"
+        }</button> }
         { topic.status != "new" && <button className="reset-topic" onClick={() => this.props.reset(this.props.topic)}>Reset</button> }
       </div>
     );

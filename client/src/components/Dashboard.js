@@ -53,7 +53,7 @@ class Dashboard extends React.Component {
           <ul className="topic-list">{queue.map(topic =>
           <li key={topic.id}>{
             <a className={"topic-card " + topic.status} onClick={
-              () => (topic.status != "in_progress") && props.study(topic)}>
+              () => (topic.status != "in_progress" && topic.status != "locked") && props.study(topic)}>
               <h3>{topic.title}</h3>
               <span className="topic-course">{props.courses.find(c => c.id == topic.course_id).title}</span>
               <span className={"topic-status " + topic.status}>{
