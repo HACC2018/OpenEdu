@@ -1,5 +1,6 @@
 # OpenEdu
-
+ <img src="OpenEdu.png" alt="Our logo">
+ 
 ## Getting Started on Windows
 To start the project on Windows, enter the git bash command line and cd into the project folder (OpenEdu) then cd into the client folder and execute the following commands:
 <br>
