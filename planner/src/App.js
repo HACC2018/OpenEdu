@@ -5,29 +5,55 @@ import { BrowserRouter, Route, Switch, Link } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 
 let history = createBrowserHistory();
+var c = "";
+var s = "";
 
 class CreateTemplate extends Component {
   render() {
     return (
       <div>
       <h1>Create Template</h1>
+      <p></p>
       <label>Subject</label>
+      <p></p>
       <select>
         <option value="volvo">History</option>
         <option value="saab">Spanish</option>
         <option value="mercedes">Math</option>
         <option value="audi">Computer Science</option>
       </select>
+      <p></p>
       <label>Grade Level</label>
+      <p></p>
+
       <select>
         { ["K", 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map(g =>
+          <option value="mercedes">{g}</option>) }
+      </select>
+      <p></p>
+
+      <button onClick={() => this.props.history.push("/new")}>Create!</button>
+
+      </div>
+    );
+  }
+}
+
+class NewTemplate extends Component{
+  render()
+  {
+    return (
+      <div>
+      <h1>New Template for</h1>
+      <h2>Lesson Plan Type</h2>
+      <select>
+        { ["Daily", "Weekly"].map(g =>
           <option value="volvo">{g}</option>) }
       </select>
       </div>
     );
   }
 }
-
 class Main extends Component {
   render() {
       return (
@@ -53,6 +79,7 @@ class App extends Component {
           <Switch>
             <Route exact path="/" component={Main}/>
             <Route exact path="/create" component={CreateTemplate}/>
+            <Route exact path ="/new" component={NewTemplate}/>
           </Switch>
         </BrowserRouter>
         </div>
