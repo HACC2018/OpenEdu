@@ -18,4 +18,3 @@ The commands should create a local page of our app at localhost:3000
 # Getting Started on Linux 
 To start the project on your Linux distro, after cloning and change directories into the client folder, execute the following commands:
 
-sudo pacman -S 
