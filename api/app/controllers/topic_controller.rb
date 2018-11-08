@@ -75,4 +75,22 @@ class TopicController < ApplicationController
       render json: review.save
     end
   end
+
+  def question
+    topic_id = params[:id].to_i
+    topic = Topic.find(topic_id);
+
+    exercises = topic.exercises
+    exercise = exercises.first
+    r = Review.where(user: current_user, topic_id: topic_id).first
+    i = if r
+          r.times % exercises.size
+        else
+          0
+        end
+
+    exercise = exercises[i]
+    answers = exercise.answers
+    render json: { question: exercise, answers: answers }
+  end
 end

@@ -1,0 +1,16 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+sin11:
+  text: 1
+  is_correct: false
+  exercise: sin1
+
+sin12:
+  text: 2
+  is_correct: false
+  exercise: sin1
+
+sin12:
+  text: ${1}/{\sqrt 2}$
+  is_correct: true
+  exercise: sin1

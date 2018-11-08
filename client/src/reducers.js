@@ -16,6 +16,8 @@ let rootReducer = (state, action) => {
       return { ...state, queue: action.queue, courses: action.courses };
     case EMPTY_QUEUE:
       return { ...state, queue: null, courses: null };
+    case "RECEIVE_QUESTION":
+      return { ...state, question: action.question, answers: action.answers };
     default:
       return {...state};
   }

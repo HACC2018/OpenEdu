@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+sin1:
+  topic: sin
+  text: What is $\sin(\theta)$?
+
+two:
+  topic_id: 1
+  text: MyString

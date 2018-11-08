@@ -254,6 +254,28 @@ html {
     }
   }
 
+  .answer-status {
+    text-align: center;
+    display: block;
+    font-size: 2rem;
+  }
+
+  .question-text *, .question-text {
+    font-size: 1.4rem !important;
+  }
+
+  button.answer {
+    display: inline-block;
+    width: calc(50% - 2rem);
+    min-height: 4rem;
+  }
+
+  .correct {
+  }
+
+  .incorrect {
+  }
+
   .dashboard {
     & > h1 {
       font-size: 1.4rem;

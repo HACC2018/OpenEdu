@@ -66,6 +66,7 @@ export function fetchQueue() {
 export function answerCorrect(topic) {
   return dispatch => {
     return axios.post(api_url + 'correct/' + topic.id)
+      .then(() => alert('Correct'))
       .then(() => dispatch(push('/dashboard')), err => alert(JSON.stringify(err)))
       .then(res => dispatch(fetchQueue()))
   };
@@ -74,8 +75,17 @@ export function answerCorrect(topic) {
 export function answerIncorrect(topic) {
   return dispatch => {
     return axios.post(api_url + 'incorrect/' + topic.id)
+      .then(() => alert('Incorrect'))
       .then(() => dispatch(push('/dashboard')))
       .then(res => dispatch(fetchQueue()))
+  };
+}
+
+export function fetchQuestion(topic) {
+  return dispatch => {
+    return axios.get(api_url + 'topic/' + topic.id + '/exercise')
+      .then(res => dispatch({ type: "RECEIVE_QUESTION", question: res.data.question, answers: res.data.answers }),
+            err => alert('error fetching question'))
   };
 }
 
