@@ -2,11 +2,29 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import { BrowserRouter, Route, Switch, Link } from 'react-router-dom';
+import Calendar from 'react-calendar';
 import { createBrowserHistory } from 'history';
 
 let history = createBrowserHistory();
-var c = "";
-var s = "";
+
+class MyAppCalendar extends Component {
+  state = {
+    date: new Date(),
+  }
+
+  onChange = date => this.setState({ date })
+
+  render() {
+    return (
+      <div>
+        <Calendar
+          onChange={this.onChange}
+          value={this.state.date}
+        />
+      </div>
+    );
+  }
+}
 
 class CreateTemplate extends Component {
   render() {
@@ -50,6 +68,9 @@ class NewTemplate extends Component{
         { ["Daily", "Weekly"].map(g =>
           <option value="volvo">{g}</option>) }
       </select>
+      <p></p>
+      <button onClick={() => this.props.history.push("/calendar")}>Create Calendar!</button>
+
       </div>
     );
   }
@@ -80,6 +101,7 @@ class App extends Component {
             <Route exact path="/" component={Main}/>
             <Route exact path="/create" component={CreateTemplate}/>
             <Route exact path ="/new" component={NewTemplate}/>
+            <Route exact path ="/calendar" component={MyAppCalendar}/>
           </Switch>
         </BrowserRouter>
         </div>
