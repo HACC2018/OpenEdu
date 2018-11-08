@@ -45,16 +45,35 @@ export function login(email, password) {
 
 export function fetchQueue() {
   return dispatch => {
-    dispatch({type: EMPTY_QUEUE});
     axios.get(api_url + 'queue')
-      .then(res => dispatch({type: RECEIVE_QUEUE, queue: res.data.topics, courses: res.data.courses}),
+      .then(res => {
+              dispatch({type: RECEIVE_QUEUE, queue: res.data.topics, courses: res.data.courses});
+              let times = Object.entries(res.data.topics)
+                .map(([tid, t]) => t)
+                .filter(t => t.status == "in_progress")
+                .map(t => new Date(t.next_review).getTime())
+                .sort();
+              if (times.length > 0) {
+                const time = 1 + (times[0] - new Date().getTime());
+                return new Promise(resolve => setTimeout(resolve, time))
+                      .then(() => dispatch(fetchQueue()));
+              }
+            },
             err => alert("error fetching queue"))
   }
 }
 
-export function completeTopic(topic) {
+export function answerCorrect(topic) {
   return dispatch => {
-    return axios.post(api_url + 'complete/' + topic.id, {complete: true})
+    return axios.post(api_url + 'correct/' + topic.id)
+      .then(() => dispatch(push('/dashboard')), err => alert(JSON.stringify(err)))
+      .then(res => dispatch(fetchQueue()))
+  };
+}
+
+export function answerIncorrect(topic) {
+  return dispatch => {
+    return axios.post(api_url + 'incorrect/' + topic.id)
       .then(() => dispatch(push('/dashboard')))
       .then(res => dispatch(fetchQueue()))
   };

@@ -3,5 +3,6 @@ Rails.application.routes.draw do
   resources 'user', only: [:index, :create]
 
   get 'queue' => 'topic#queue'
-  post 'complete/:id' => 'topic#complete'
+  post 'correct/:id' => 'topic#correct'
+  post 'incorrect/:id' => 'topic#incorrect'
 end

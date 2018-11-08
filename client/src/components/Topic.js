@@ -1,4 +1,4 @@
-import { completeTopic } from '../actions.js';
+import { answerCorrect, answerIncorrect } from '../actions.js';
 
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
@@ -36,7 +36,8 @@ class Topic extends React.Component {
       <div className="topic">
         <h1>{this.props.topic.title}</h1>
         <ReactMarkdown source={this.props.topic.content} />
-        <button onClick={() => this.props.complete(this.props.topic)}>Complete</button>
+        <button onClick={() => this.props.review(this.props.topic)}>Schedule Review</button>
+        <button className="reset-topic" onClick={() => this.props.reset(this.props.topic)}>Reset</button>
       </div>
     );
   }
@@ -46,5 +47,8 @@ export default connect(
   (state, p) => ({
     topic: state.openedu.queue[p.topic_id]
   }),
-  dispatch => ({ complete: topic => dispatch(completeTopic(topic)) })
+  dispatch => ({
+    review: topic => dispatch(answerCorrect(topic)),
+    reset: topic => dispatch(answerIncorrect(topic))
+  })
 )(Topic);
