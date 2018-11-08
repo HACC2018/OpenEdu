@@ -1,6 +1,10 @@
 class TopicController < ApplicationController
   before_action :authenticate_user
 
+  def times_to_complete
+    return 3
+  end
+
   def queue
     completions = current_user.completions.map { |c| c.topic_id }
     all_topics = Hash[Topic.all.map { |t| [t.id, t.as_json.merge({status: "new"})] }]
@@ -23,7 +27,8 @@ class TopicController < ApplicationController
           all_topics[r.topic_id][:status] = "in_progress"
           all_topics[r.topic_id][:next_review] = r.time
         end
-        all_topics[r.topic_id][:times_left] = 2 - r.times
+
+        all_topics[r.topic_id][:times_left] = times_to_complete - r.times
       end
     end
 
@@ -38,13 +43,14 @@ class TopicController < ApplicationController
     review = Review.where(user: current_user, topic_id: topic_id).first
 
     if review
-      if review.times >= 1
+      review.times += 1
+
+      if review.times >= times_to_complete
         completion = Completion.new user: current_user, topic_id: topic_id
         review.destroy
         render json: completion.save
       else
-        review.times += 1
-        review.time = Time.now + 5
+        review.time = Time.now + 5*(review.times + 1)
         render json: review.save
       end
     else
