@@ -2,6 +2,14 @@ import React from 'react';
 import { connect } from 'react-redux'
 import { push } from 'connected-react-router';
 
+function humanize(str) {
+  var frags = str.split('_');
+  for (let i = 0; i < frags.length; ++i) {
+    frags[i] = frags[i].charAt(0).toUpperCase() + frags[i].slice(1);
+  }
+  return frags.join(' ');
+}
+
 class Dashboard extends React.Component {
   componentDidMount() {
     this.interval = setInterval(() => this.setState({ time: Date.now() }), 1000);
@@ -49,7 +57,7 @@ class Dashboard extends React.Component {
               <h3>{topic.title}</h3>
               <span className="topic-course">{props.courses.find(c => c.id == topic.course_id).title}</span>
               <span className={"topic-status " + topic.status}>{
-                topic.status == "in_progress" ? "Review in " + Math.floor((new Date(topic.next_review).getTime() - new Date().getTime())/1000)  : topic.status
+                topic.status == "in_progress" ? "Review in " + Math.floor((new Date(topic.next_review).getTime() - new Date().getTime())/1000)  : humanize(topic.status)
               }</span>
             </a>
             }
