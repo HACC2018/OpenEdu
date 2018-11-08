@@ -1,7 +1,5 @@
 # OpenEdu
 
-
-
 ## Getting Started on Windows
 To start the project on Windows, enter the git bash command line and cd into the project folder (OpenEdu) then cd into the client folder and execute the following commands:
 <br>
@@ -21,9 +19,9 @@ yarn
 yarn start
 <br>
 
-To install yarn on Windows, Mac, or any linux distro, check <href>https://yarnpkg.com/lang/en/docs/install/#arch-stable</href>
+To install yarn on Windows, Mac, or any linux distro, check https://yarnpkg.com/lang/en/docs/install/#arch-stable
 
-The commands should create a local page of our app at <href>localhost:3000</href> 
+The commands should create a local page of our app at localhost:3000
 
 ## Software Dependencies 
 yarn 1.12.1 
