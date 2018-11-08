@@ -2,7 +2,7 @@ class TopicController < ApplicationController
   before_action :authenticate_user
 
   def queue
-    completions = current_user.completions
+    completions = current_user.completions.map { |c| c.topic_id }
     all_topics = Hash[Topic.all.map { |t| [t.id, t.as_json.merge({status: "new"})] }]
 
     Requirement.all.each do |r|
@@ -12,7 +12,7 @@ class TopicController < ApplicationController
     end
 
     completions.each do |c|
-      all_topics[c.topic_id][:status] = "completed"
+      all_topics[c][:status] = "completed"
     end
 
     courses = Course.all
