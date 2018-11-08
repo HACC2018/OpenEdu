@@ -23,7 +23,7 @@ yarn start
 
 To install yarn on Windows, Mac, or any linux distro, check <href>https://yarnpkg.com/lang/en/docs/install/#arch-stable</href>
 
-The commands should create a local page of our app at localhost:3000 
+The commands should create a local page of our app at <href>localhost:3000</href> 
 
 ## Software Dependencies 
 yarn 1.12.1 
